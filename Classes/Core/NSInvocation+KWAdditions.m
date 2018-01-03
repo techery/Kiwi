@@ -3,12 +3,12 @@
 //  Copyright (c) 2006-2009 by Mulle Kybernetik. See License file for details.
 //---------------------------------------------------------------------------------------
 
-#import "NSInvocation+OCMAdditions.h"
+#import "NSInvocation+KWAdditions.h"
 
 
-@implementation NSInvocation(OCMAdditions)
+@implementation NSInvocation(KWAdditions)
 
-- (id)getArgumentAtIndexAsObject:(int)argIndex
+- (id)kw_getArgumentAtIndexAsObject:(int)argIndex
 {
 	const char* argType;
 	
@@ -138,7 +138,7 @@
 	return nil;
 }
 
-- (NSString *)invocationDescription
+- (NSString *)kw_invocationDescription
 {
 	NSMethodSignature *methodSignature = [self methodSignature];
 	NSUInteger numberOfArgs = [methodSignature numberOfArguments];
@@ -152,13 +152,13 @@
 	for(i = 2; i < numberOfArgs; i++)
 	{
 		[description appendFormat:@"%@%@:", (i > 2 ? @" " : @""), selectorParts[(i - 2)]];
-		[description appendString:[self argumentDescriptionAtIndex:i]];
+		[description appendString:[self kw_argumentDescriptionAtIndex:i]];
 	}
 	
 	return description;
 }
 
-- (NSString *)argumentDescriptionAtIndex:(int)argIndex
+- (NSString *)kw_argumentDescriptionAtIndex:(int)argIndex
 {
 	const char *argType = [[self methodSignature] getArgumentTypeAtIndex:argIndex];
 	if(strchr("rnNoORV", argType[0]) != NULL)
@@ -166,31 +166,31 @@
 
 	switch(*argType)
 	{
-		case '@':	return [self objectDescriptionAtIndex:argIndex];
-		case 'c':	return [self charDescriptionAtIndex:argIndex];
-		case 'C':	return [self unsignedCharDescriptionAtIndex:argIndex];
-		case 'i':	return [self intDescriptionAtIndex:argIndex];
-		case 'I':	return [self unsignedIntDescriptionAtIndex:argIndex];
-		case 's':	return [self shortDescriptionAtIndex:argIndex];
-		case 'S':	return [self unsignedShortDescriptionAtIndex:argIndex];
-		case 'l':	return [self longDescriptionAtIndex:argIndex];
-		case 'L':	return [self unsignedLongDescriptionAtIndex:argIndex];
-		case 'q':	return [self longLongDescriptionAtIndex:argIndex];
-		case 'Q':	return [self unsignedLongLongDescriptionAtIndex:argIndex];
-		case 'd':	return [self doubleDescriptionAtIndex:argIndex];
-		case 'f':	return [self floatDescriptionAtIndex:argIndex];
+		case '@':	return [self kw_objectDescriptionAtIndex:argIndex];
+		case 'c':	return [self kw_charDescriptionAtIndex:argIndex];
+		case 'C':	return [self kw_unsignedCharDescriptionAtIndex:argIndex];
+		case 'i':	return [self kw_intDescriptionAtIndex:argIndex];
+		case 'I':	return [self kw_unsignedIntDescriptionAtIndex:argIndex];
+		case 's':	return [self kw_shortDescriptionAtIndex:argIndex];
+		case 'S':	return [self kw_unsignedShortDescriptionAtIndex:argIndex];
+		case 'l':	return [self kw_longDescriptionAtIndex:argIndex];
+		case 'L':	return [self kw_unsignedLongDescriptionAtIndex:argIndex];
+		case 'q':	return [self kw_longLongDescriptionAtIndex:argIndex];
+		case 'Q':	return [self kw_unsignedLongLongDescriptionAtIndex:argIndex];
+		case 'd':	return [self kw_doubleDescriptionAtIndex:argIndex];
+		case 'f':	return [self kw_floatDescriptionAtIndex:argIndex];
 		// Why does this throw EXC_BAD_ACCESS when appending the string?
 		//	case NSObjCStructType: return [self structDescriptionAtIndex:index];
-		case '^':	return [self pointerDescriptionAtIndex:argIndex];
-		case '*':	return [self cStringDescriptionAtIndex:argIndex];
-		case ':':	return [self selectorDescriptionAtIndex:argIndex];
+		case '^':	return [self kw_pointerDescriptionAtIndex:argIndex];
+		case '*':	return [self kw_cStringDescriptionAtIndex:argIndex];
+		case ':':	return [self kw_selectorDescriptionAtIndex:argIndex];
 		default:	return [@"<??" stringByAppendingString:@">"];  // avoid confusion with trigraphs...
 	}
 	
 }
 
 
-- (NSString *)objectDescriptionAtIndex:(int)anInt
+- (NSString *)kw_objectDescriptionAtIndex:(int)anInt
 {
 	__unsafe_unretained id object;
 	
@@ -203,7 +203,7 @@
 		return [object description];
 }
 
-- (NSString *)charDescriptionAtIndex:(int)anInt
+- (NSString *)kw_charDescriptionAtIndex:(int)anInt
 {
 	unsigned char buffer[128];
 	memset(buffer, 0x0, 128);
@@ -217,7 +217,7 @@
 		return [NSString stringWithFormat:@"'%c'", *buffer];
 }
 
-- (NSString *)unsignedCharDescriptionAtIndex:(int)anInt
+- (NSString *)kw_unsignedCharDescriptionAtIndex:(int)anInt
 {
 	unsigned char buffer[128];
 	memset(buffer, 0x0, 128);
@@ -226,7 +226,7 @@
 	return [NSString stringWithFormat:@"'%c'", *buffer];
 }
 
-- (NSString *)intDescriptionAtIndex:(int)anInt
+- (NSString *)kw_intDescriptionAtIndex:(int)anInt
 {
 	int intValue;
 	
@@ -234,7 +234,7 @@
 	return [NSString stringWithFormat:@"%d", intValue];
 }
 
-- (NSString *)unsignedIntDescriptionAtIndex:(int)anInt
+- (NSString *)kw_unsignedIntDescriptionAtIndex:(int)anInt
 {
 	unsigned int intValue;
 	
@@ -242,7 +242,7 @@
 	return [NSString stringWithFormat:@"%d", intValue];
 }
 
-- (NSString *)shortDescriptionAtIndex:(int)anInt
+- (NSString *)kw_shortDescriptionAtIndex:(int)anInt
 {
 	short shortValue;
 	
@@ -250,7 +250,7 @@
 	return [NSString stringWithFormat:@"%hi", shortValue];
 }
 
-- (NSString *)unsignedShortDescriptionAtIndex:(int)anInt
+- (NSString *)kw_unsignedShortDescriptionAtIndex:(int)anInt
 {
 	unsigned short shortValue;
 	
@@ -258,7 +258,7 @@
 	return [NSString stringWithFormat:@"%hu", shortValue];
 }
 
-- (NSString *)longDescriptionAtIndex:(int)anInt
+- (NSString *)kw_longDescriptionAtIndex:(int)anInt
 {
 	long longValue;
 	
@@ -266,7 +266,7 @@
 	return [NSString stringWithFormat:@"%ld", longValue];
 }
 
-- (NSString *)unsignedLongDescriptionAtIndex:(int)anInt
+- (NSString *)kw_unsignedLongDescriptionAtIndex:(int)anInt
 {
 	unsigned long longValue;
 	
@@ -274,7 +274,7 @@
 	return [NSString stringWithFormat:@"%lu", longValue];
 }
 
-- (NSString *)longLongDescriptionAtIndex:(int)anInt
+- (NSString *)kw_longLongDescriptionAtIndex:(int)anInt
 {
 	long long longLongValue;
 	
@@ -282,7 +282,7 @@
 	return [NSString stringWithFormat:@"%qi", longLongValue];
 }
 
-- (NSString *)unsignedLongLongDescriptionAtIndex:(int)anInt
+- (NSString *)kw_unsignedLongLongDescriptionAtIndex:(int)anInt
 {
 	unsigned long long longLongValue;
 	
@@ -290,7 +290,7 @@
 	return [NSString stringWithFormat:@"%qu", longLongValue];
 }
 
-- (NSString *)doubleDescriptionAtIndex:(int)anInt;
+- (NSString *)kw_doubleDescriptionAtIndex:(int)anInt;
 {
 	double doubleValue;
 	
@@ -298,7 +298,7 @@
 	return [NSString stringWithFormat:@"%f", doubleValue];
 }
 
-- (NSString *)floatDescriptionAtIndex:(int)anInt
+- (NSString *)kw_floatDescriptionAtIndex:(int)anInt
 {
 	float floatValue;
 	
@@ -306,7 +306,7 @@
 	return [NSString stringWithFormat:@"%f", floatValue];
 }
 
-- (NSString *)structDescriptionAtIndex:(int)anInt;
+- (NSString *)kw_structDescriptionAtIndex:(int)anInt;
 {
 	void *buffer;
 	
@@ -314,7 +314,7 @@
 	return [NSString stringWithFormat:@":(struct)%p", buffer];
 }
 
-- (NSString *)pointerDescriptionAtIndex:(int)anInt
+- (NSString *)kw_pointerDescriptionAtIndex:(int)anInt
 {
 	void *buffer;
 	
@@ -322,7 +322,7 @@
 	return [NSString stringWithFormat:@"%p", buffer];
 }
 
-- (NSString *)cStringDescriptionAtIndex:(int)anInt
+- (NSString *)kw_cStringDescriptionAtIndex:(int)anInt
 {
 	char buffer[128];
 	
@@ -332,7 +332,7 @@
 	return [NSString stringWithFormat:@"\"%s\"", buffer];
 }
 
-- (NSString *)selectorDescriptionAtIndex:(int)anInt
+- (NSString *)kw_selectorDescriptionAtIndex:(int)anInt
 {
 	SEL selectorValue;
 	
